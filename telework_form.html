@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>在宅勤務申請 — NPO法人ユアフィールドつくば</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700&family=BIZ+UDPGothic:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* ── Design tokens (ユアフィールドつくば ガイド v1.0) ─────────────────── */
+:root {
+  --sun:      #F39800;
+  --sun-t:    #B15A00;
+  --earth:    #552500;
+  --bg:       #FFFBF1;
+  --surface:  #FFFFFF;
+  --ink:      #43301F;
+  --ink-s:    #7A6653;
+  --line:     #EFDDC4;
+  --shadow:   0 4px 20px rgba(85,37,0,.07);
+  --disp:     'Zen Maru Gothic','Hiragino Maru Gothic ProN',sans-serif;
+  --body:     'BIZ UDPGothic','Noto Sans JP',sans-serif;
+  --r-card:   14px;
+  --r-pill:   999px;
+  --r-input:  10px;
+}
+
+/* ── Reset ──────────────────────────────────────────────────────────── */
+*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; }
+body {
+  font-family: var(--body);
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.8;
+  min-height: 100vh;
+}
+
+/* ── Header ─────────────────────────────────────────────────────────── */
+.hd {
+  background: var(--sun);
+  padding: 24px 40px 22px;
+}
+.hd-org {
+  font-size: 12px;
+  color: var(--earth);
+  opacity: .75;
+  margin-bottom: 4px;
+  font-family: var(--body);
+}
+.hd-title {
+  font-family: var(--disp);
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--earth);
+  letter-spacing: .04em;
+  margin-bottom: 4px;
+}
+.hd-sub {
+  font-size: 13px;
+  color: var(--earth);
+  opacity: .85;
+}
+
+/* ── Container ──────────────────────────────────────────────────────── */
+.wrap {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 36px 24px 56px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ── Wave divider ───────────────────────────────────────────────────── */
+.wave {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  overflow: hidden;
+  height: 20px;
+}
+.wave svg { width: 100%; }
+
+/* ── Card ───────────────────────────────────────────────────────────── */
+.card {
+  background: var(--surface);
+  border-radius: var(--r-card);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--line);
+  padding: 28px 32px 32px;
+}
+
+/* ── Section header ─────────────────────────────────────────────────── */
+.sec-hd {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+}
+.sec-num {
+  background: var(--sun);
+  color: var(--earth);
+  font-family: var(--disp);
+  font-size: 12px;
+  font-weight: 700;
+  width: 26px; height: 26px;
+  border-radius: var(--r-pill);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.sec-title {
+  font-family: var(--disp);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--earth);
+  letter-spacing: .03em;
+}
+
+/* ── Fields ─────────────────────────────────────────────────────────── */
+.fields { display: flex; flex-direction: column; gap: 18px; }
+.row2   { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.field  { display: flex; flex-direction: column; gap: 6px; }
+
+label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink);
+  font-family: var(--body);
+}
+.req { color: var(--sun-t); font-size: 11px; margin-left: 2px; }
+
+input[type=text],
+input[type=date],
+select,
+textarea {
+  font-family: var(--body);
+  font-size: 14px;
+  color: var(--ink);
+  background: var(--bg);
+  border: 1.5px solid var(--line);
+  border-radius: var(--r-input);
+  padding: 10px 14px;
+  width: 100%;
+  outline: none;
+  transition: border-color .15s;
+  line-height: 1.6;
+}
+input[type=text]:focus,
+input[type=date]:focus,
+select:focus,
+textarea:focus { border-color: var(--sun); }
+
+input::placeholder,
+textarea::placeholder { color: var(--ink-s); }
+
+select {
+  appearance: none;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='7'%3E%3Cpath d='M1 1l4.5 4.5L10 1' stroke='%23552500' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 38px;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 96px;
+}
+
+/* ── Time fields (conditional) ──────────────────────────────────────── */
+.time-wrap { display: none; }
+.time-wrap.on { display: block; }
+
+/* ── Hint ───────────────────────────────────────────────────────────── */
+.hint { font-size: 11px; color: var(--ink-s); margin-top: 2px; }
+
+/* ── Submit button ──────────────────────────────────────────────────── */
+.btn-area { padding-top: 4px; }
+.btn {
+  background: var(--sun);
+  color: var(--earth);
+  font-family: var(--disp);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  border: none;
+  border-radius: var(--r-pill);
+  padding: 14px 0;
+  width: 100%;
+  cursor: pointer;
+  transition: opacity .15s, transform .1s;
+}
+.btn:hover { opacity: .88; }
+.btn:active { transform: scale(.98); }
+.btn:disabled { opacity: .45; cursor: not-allowed; }
+
+/* ── Notification ───────────────────────────────────────────────────── */
+.notif {
+  border-radius: var(--r-card);
+  padding: 14px 18px;
+  font-size: 14px;
+  display: none;
+}
+.notif.ok  { background: #D1FAE5; color: #065F46; border: 1px solid #6EE7B7; display: block; }
+.notif.err { background: #FEE2E2; color: #7F1D1D; border: 1px solid #FCA5A5; display: block; }
+
+/* ── Responsive ─────────────────────────────────────────────────────── */
+@media(max-width:560px){
+  .hd   { padding: 20px 20px 18px; }
+  .wrap { padding: 24px 16px 48px; }
+  .card { padding: 22px 20px 26px; }
+  .row2 { grid-template-columns: 1fr; }
+  .hd-title { font-size: 22px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── Header ─────────────────────────────────────────────────────── -->
+<header class="hd">
+  <p class="hd-org">NPO法人ユアフィールドつくば</p>
+  <h1 class="hd-title">在宅勤務申請</h1>
+  <p class="hd-sub">申請日の前日17時までにご提出ください。</p>
+</header>
+
+<main class="wrap">
+
+  <!-- 通知エリア -->
+  <div id="notif" class="notif" role="alert" aria-live="polite"></div>
+
+  <!-- ① 基本情報 ─────────────────────────────────────────────────── -->
+  <section class="card" aria-labelledby="sec1">
+    <div class="sec-hd">
+      <div class="sec-num" aria-hidden="true">1</div>
+      <span class="sec-title" id="sec1">基本情報</span>
+    </div>
+    <div class="fields">
+
+      <div class="field">
+        <label for="f-name">氏名<span class="req" aria-label="必須">*</span></label>
+        <input type="text" id="f-name" placeholder="お名前を入力してください" autocomplete="name" required>
+      </div>
+
+      <div class="row2">
+        <div class="field">
+          <label for="f-date">在宅勤務希望日<span class="req" aria-label="必須">*</span></label>
+          <input type="date" id="f-date" required>
+        </div>
+        <div class="field">
+          <label for="f-kubun">申請区分<span class="req" aria-label="必須">*</span></label>
+          <select id="f-kubun" required>
+            <option value="">選択してください</option>
+            <option value="終日">終日</option>
+            <option value="午前のみ">午前のみ</option>
+            <option value="午後のみ">午後のみ</option>
+            <option value="時間指定">時間指定</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- 時間指定のみ表示 -->
+      <div class="time-wrap" id="timeWrap">
+        <div class="row2">
+          <div class="field">
+            <label for="f-start">開始時刻<span class="req" aria-label="必須">*</span></label>
+            <input type="text" id="f-start" placeholder="例）09:00">
+          </div>
+          <div class="field">
+            <label for="f-end">終了時刻<span class="req" aria-label="必須">*</span></label>
+            <input type="text" id="f-end" placeholder="例）18:00">
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- wave -->
+  <div class="wave" aria-hidden="true">
+    <svg viewBox="0 0 680 20" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path d="M0 10 Q85 2 170 10 T340 10 T510 10 T680 10" fill="none" stroke="#EFDDC4" stroke-width="2"/>
+      <path d="M0 16 Q85 8 170 16 T340 16 T510 16 T680 16" fill="none" stroke="#EFDDC4" stroke-width="1" opacity=".5"/>
+    </svg>
+  </div>
+
+  <!-- ② 在宅勤務の理由 ──────────────────────────────────────────── -->
+  <section class="card" aria-labelledby="sec2">
+    <div class="sec-hd">
+      <div class="sec-num" aria-hidden="true">2</div>
+      <span class="sec-title" id="sec2">在宅勤務の理由</span>
+    </div>
+    <div class="fields">
+      <div class="field">
+        <label for="f-reason">理由<span class="req" aria-label="必須">*</span></label>
+        <textarea id="f-reason" placeholder="在宅勤務の理由を具体的に入力してください" required></textarea>
+      </div>
+    </div>
+  </section>
+
+  <!-- wave -->
+  <div class="wave" aria-hidden="true">
+    <svg viewBox="0 0 680 20" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path d="M0 10 Q85 2 170 10 T340 10 T510 10 T680 10" fill="none" stroke="#EFDDC4" stroke-width="2"/>
+      <path d="M0 16 Q85 8 170 16 T340 16 T510 16 T680 16" fill="none" stroke="#EFDDC4" stroke-width="1" opacity=".5"/>
+    </svg>
+  </div>
+
+  <!-- ③ 備考 ────────────────────────────────────────────────────── -->
+  <section class="card" aria-labelledby="sec3">
+    <div class="sec-hd">
+      <div class="sec-num" aria-hidden="true">3</div>
+      <span class="sec-title" id="sec3">備考</span>
+    </div>
+    <div class="fields">
+      <div class="field">
+        <label for="f-note">備考（任意）</label>
+        <textarea id="f-note" placeholder="補足があれば入力してください"></textarea>
+      </div>
+    </div>
+  </section>
+
+  <!-- 送信ボタン -->
+  <div class="btn-area">
+    <button class="btn" id="submitBtn" type="button">申請する</button>
+  </div>
+
+</main>
+
+<script>
+const FLOW_URL = 'https://default2d74fddcf5f24857a377bb59864fc0.af.environment.api.powerplatform.com:443/powerautomate/automations/direct/cu/17/workflows/785f90934b674fd8abf9882a12a63bde/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=AyXg8YlmgViwJq_dKbD5OnqbvDlqfUb_c0-JHFxPWz4';
+
+document.getElementById('f-kubun').addEventListener('change', function () {
+  document.getElementById('timeWrap').classList.toggle('on', this.value === '時間指定');
+});
+
+function notify(msg, type) {
+  const el = document.getElementById('notif');
+  el.textContent = msg;
+  el.className = 'notif ' + type;
+  el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+function clearNotify() {
+  const el = document.getElementById('notif');
+  el.className = 'notif';
+  el.textContent = '';
+}
+
+document.getElementById('submitBtn').addEventListener('click', async function () {
+  clearNotify();
+  const name   = document.getElementById('f-name').value.trim();
+  const date   = document.getElementById('f-date').value;
+  const kubun  = document.getElementById('f-kubun').value;
+  const start  = document.getElementById('f-start').value.trim();
+  const end    = document.getElementById('f-end').value.trim();
+  const reason = document.getElementById('f-reason').value.trim();
+  const note   = document.getElementById('f-note').value.trim();
+
+  if (!name)   { notify('氏名を入力してください。', 'err'); return; }
+  if (!date)   { notify('在宅勤務希望日を選択してください。', 'err'); return; }
+  if (!kubun)  { notify('申請区分を選択してください。', 'err'); return; }
+  if (kubun === '時間指定' && (!start || !end)) {
+    notify('時間指定の場合は開始時刻と終了時刻を入力してください。', 'err'); return;
+  }
+  if (!reason) { notify('在宅勤務の理由を入力してください。', 'err'); return; }
+
+  const btn = this;
+  btn.disabled = true;
+  btn.textContent = '送信中…';
+
+  try {
+    const r = await fetch(FLOW_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        '申請者名': name,
+        '希望日'  : date + 'T00:00:00Z',
+        '申請区分': kubun,
+        '開始時刻': start,
+        '終了時刻': end,
+        '理由区分': reason,
+        '備考'    : note
+      })
+    });
+
+    if (r.ok) {
+      notify('✅ 申請を送信しました。承認者に通知されます。', 'ok');
+      ['f-name','f-date','f-kubun','f-start','f-end','f-reason','f-note']
+        .forEach(id => { document.getElementById(id).value = ''; });
+      document.getElementById('timeWrap').classList.remove('on');
+    } else {
+      notify('送信に失敗しました。しばらく待ってから再度お試しください。', 'err');
+    }
+  } catch (e) {
+    console.error('Error:', e);
+    notify('エラーが発生しました。ページを再読み込みしてから再度お試しください。', 'err');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '申請する';
+  }
+});
+</script>
+</body>
+</html>

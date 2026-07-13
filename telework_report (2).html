@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>在宅勤務 業務報告書 — NPO法人ユアフィールドつくば</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700&family=BIZ+UDPGothic:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sun:#F39800; --sun-t:#B15A00; --earth:#552500;
+  --bg:#FFFBF1; --surface:#FFFFFF; --ink:#43301F;
+  --ink-s:#7A6653; --line:#EFDDC4;
+  --shadow:0 4px 20px rgba(85,37,0,.07);
+  --disp:'Zen Maru Gothic','Hiragino Maru Gothic ProN',sans-serif;
+  --body:'BIZ UDPGothic','Noto Sans JP',sans-serif;
+  --r-card:14px; --r-pill:999px; --r-input:10px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{font-size:16px;}
+body{font-family:var(--body);background:var(--bg);color:var(--ink);line-height:1.8;min-height:100vh;}
+.hd{background:var(--sun);padding:24px 40px 22px;}
+.hd-org{font-size:12px;color:var(--earth);opacity:.75;margin-bottom:4px;}
+.hd-title{font-family:var(--disp);font-size:26px;font-weight:700;color:var(--earth);letter-spacing:.04em;margin-bottom:4px;}
+.hd-sub{font-size:13px;color:var(--earth);opacity:.85;}
+.wrap{max-width:680px;margin:0 auto;padding:36px 24px 56px;display:flex;flex-direction:column;gap:20px;}
+.wave{display:flex;align-items:center;overflow:hidden;height:20px;}
+.wave svg{width:100%;}
+.card{background:var(--surface);border-radius:var(--r-card);box-shadow:var(--shadow);border:1px solid var(--line);padding:28px 32px 32px;}
+.sec-hd{display:flex;align-items:center;gap:10px;margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid var(--line);}
+.sec-num{background:var(--sun);color:var(--earth);font-family:var(--disp);font-size:12px;font-weight:700;width:26px;height:26px;border-radius:var(--r-pill);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.sec-title{font-family:var(--disp);font-size:15px;font-weight:700;color:var(--earth);letter-spacing:.03em;}
+.fields{display:flex;flex-direction:column;gap:18px;}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;}
+.field{display:flex;flex-direction:column;gap:6px;}
+label{font-size:13px;font-weight:700;color:var(--ink);font-family:var(--body);}
+.req{color:var(--sun-t);font-size:11px;margin-left:2px;}
+input[type=text],input[type=date],textarea{
+  font-family:var(--body);font-size:14px;color:var(--ink);background:var(--bg);
+  border:1.5px solid var(--line);border-radius:var(--r-input);padding:10px 14px;
+  width:100%;outline:none;transition:border-color .15s;line-height:1.6;
+}
+input[type=text]:focus,input[type=date]:focus,textarea:focus{border-color:var(--sun);}
+input::placeholder,textarea::placeholder{color:var(--ink-s);}
+textarea{resize:vertical;min-height:96px;}
+/* 業務報告テーブル */
+.report-table{width:100%;border-collapse:collapse;font-size:13px;}
+.report-table thead th{
+  background:var(--sun);color:var(--earth);
+  font-family:var(--disp);font-weight:700;
+  padding:10px 12px;text-align:center;font-size:12px;
+}
+.report-table thead th:first-child{border-radius:8px 0 0 0;width:130px;}
+.report-table thead th:nth-child(2){width:auto;}
+.report-table thead th:last-child{border-radius:0 8px 0 0;width:110px;}
+.report-table tbody tr:nth-child(even){background:#FFFEF9;}
+.report-table tbody td{border:1px solid var(--line);padding:0;}
+.report-table tbody td input[type=text],.report-table tbody td select{
+  border:none;background:transparent;padding:9px 10px;
+  font-size:13px;width:100%;font-family:var(--body);
+  color:var(--ink);outline:none;border-radius:0;
+}
+.report-table tbody td select{
+  appearance:none;cursor:pointer;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23552500' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 10px center;padding-right:28px;
+}
+.add-btn{
+  margin-top:12px;background:transparent;
+  border:1.5px dashed var(--line);border-radius:var(--r-input);
+  padding:9px;width:100%;font-size:13px;color:var(--ink-s);
+  font-family:var(--body);cursor:pointer;transition:border-color .15s,color .15s;
+}
+.add-btn:hover{border-color:var(--sun);color:var(--sun-t);}
+/* Button */
+.btn-area{padding-top:4px;}
+.btn{
+  background:var(--sun);color:var(--earth);font-family:var(--disp);
+  font-size:15px;font-weight:700;letter-spacing:.04em;border:none;
+  border-radius:var(--r-pill);padding:14px 0;width:100%;cursor:pointer;
+  transition:opacity .15s,transform .1s;
+}
+.btn:hover{opacity:.88;}
+.btn:active{transform:scale(.98);}
+.btn:disabled{opacity:.45;cursor:not-allowed;}
+/* Notification */
+.notif{border-radius:var(--r-card);padding:14px 18px;font-size:14px;display:none;}
+.notif.ok{background:#D1FAE5;color:#065F46;border:1px solid #6EE7B7;display:block;}
+.notif.err{background:#FEE2E2;color:#7F1D1D;border:1px solid #FCA5A5;display:block;}
+/* Responsive */
+@media(max-width:560px){
+  .hd{padding:20px 20px 18px;}
+  .wrap{padding:24px 16px 48px;}
+  .card{padding:22px 20px 26px;}
+  .row2,.row3{grid-template-columns:1fr;}
+  .hd-title{font-size:22px;}
+  .report-table{font-size:12px;}
+}
+</style>
+</head>
+<body>
+
+<header class="hd">
+  <p class="hd-org">NPO法人ユアフィールドつくば</p>
+  <h1 class="hd-title">在宅勤務 業務報告書</h1>
+  <p class="hd-sub">在宅勤務終了後、翌日までにご提出ください。</p>
+</header>
+
+<main class="wrap">
+
+  <div id="notif" class="notif" role="alert" aria-live="polite"></div>
+
+  <!-- ① 確認情報 -->
+  <section class="card" aria-labelledby="sec1">
+    <div class="sec-hd">
+      <div class="sec-num" aria-hidden="true">1</div>
+      <span class="sec-title" id="sec1">確認情報</span>
+    </div>
+    <div class="fields">
+      <div class="row2">
+        <div class="field">
+          <label for="f-name">氏名<span class="req">*</span></label>
+          <input type="text" id="f-name" placeholder="お名前を入力してください" autocomplete="name" required>
+        </div>
+        <div class="field">
+          <label for="f-date">在宅勤務実施日<span class="req">*</span></label>
+          <input type="date" id="f-date" required>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="wave" aria-hidden="true">
+    <svg viewBox="0 0 680 20" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path d="M0 10 Q85 2 170 10 T340 10 T510 10 T680 10" fill="none" stroke="#EFDDC4" stroke-width="2"/>
+      <path d="M0 16 Q85 8 170 16 T340 16 T510 16 T680 16" fill="none" stroke="#EFDDC4" stroke-width="1" opacity=".5"/>
+    </svg>
+  </div>
+
+  <!-- ② 勤務時間 -->
+  <section class="card" aria-labelledby="sec2">
+    <div class="sec-hd">
+      <div class="sec-num" aria-hidden="true">2</div>
+      <span class="sec-title" id="sec2">勤務時間</span>
+    </div>
+    <div class="fields">
+      <div class="row3">
+        <div class="field">
+          <label for="f-start">業務開始時刻<span class="req">*</span></label>
+          <input type="text" id="f-start" placeholder="例）09:00" required>
+        </div>
+        <div class="field">
+          <label for="f-end">業務終了時刻<span class="req">*</span></label>
+          <input type="text" id="f-end" placeholder="例）18:00" required>
+        </div>
+        <div class="field">
+          <label for="f-break">休憩時間<span class="req">*</span></label>
+          <input type="text" id="f-break" placeholder="例）60分" required>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="wave" aria-hidden="true">
+    <svg viewBox="0 0 680 20" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path d="M0 10 Q85 2 170 10 T340 10 T510 10 T680 10" fill="none" stroke="#EFDDC4" stroke-width="2"/>
+      <path d="M0 16 Q85 8 170 16 T340 16 T510 16 T680 16" fill="none" stroke="#EFDDC4" stroke-width="1" opacity=".5"/>
+    </svg>
+  </div>
+
+  <!-- ③ 業務内容 -->
+  <section class="card" aria-labelledby="sec3">
+    <div class="sec-hd">
+      <div class="sec-num" aria-hidden="true">3</div>
+      <span class="sec-title" id="sec3">業務内容</span>
+    </div>
+    <div class="fields">
+      <table class="report-table" id="reportTable">
+        <thead>
+          <tr>
+            <th>時刻</th>
+            <th>業務内容</th>
+            <th>進捗状況</th>
+          </tr>
+        </thead>
+        <tbody id="reportBody">
+          <tr>
+            <td><input type="text" placeholder="09:00〜10:00"></td>
+            <td><input type="text" placeholder="業務内容を入力"></td>
+            <td><select><option value="">選択してください</option><option value="完了">完了</option><option value="進行中">進行中</option><option value="持ち越し">持ち越し</option></select></td>
+          </tr>
+          <tr>
+            <td><input type="text" placeholder="10:00〜11:00"></td>
+            <td><input type="text" placeholder="業務内容を入力"></td>
+            <td><select><option value="">選択してください</option><option value="完了">完了</option><option value="進行中">進行中</option><option value="持ち越し">持ち越し</option></select></td>
+          </tr>
+          <tr>
+            <td><input type="text" placeholder="11:00〜12:00"></td>
+            <td><input type="text" placeholder="業務内容を入力"></td>
+            <td><select><option value="">選択してください</option><option value="完了">完了</option><option value="進行中">進行中</option><option value="持ち越し">持ち越し</option></select></td>
+          </tr>
+          <tr>
+            <td><input type="text" placeholder="13:00〜14:00"></td>
+            <td><input type="text" placeholder="業務内容を入力"></td>
+            <td><select><option value="">選択してください</option><option value="完了">完了</option><option value="進行中">進行中</option><option value="持ち越し">持ち越し</option></select></td>
+          </tr>
+          <tr>
+            <td><input type="text" placeholder="14:00〜15:00"></td>
+            <td><input type="text" placeholder="業務内容を入力"></td>
+            <td><select><option value="">選択してください</option><option value="完了">完了</option><option value="進行中">進行中</option><option value="持ち越し">持ち越し</option></select></td>
+          </tr>
+        </tbody>
+      </table>
+      <button class="add-btn" id="addRowBtn" type="button">＋ 行を追加する</button>
+    </div>
+  </section>
+
+  <div class="wave" aria-hidden="true">
+    <svg viewBox="0 0 680 20" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path d="M0 10 Q85 2 170 10 T340 10 T510 10 T680 10" fill="none" stroke="#EFDDC4" stroke-width="2"/>
+      <path d="M0 16 Q85 8 170 16 T340 16 T510 16 T680 16" fill="none" stroke="#EFDDC4" stroke-width="1" opacity=".5"/>
+    </svg>
+  </div>
+
+  <!-- ④ 備考 -->
+  <section class="card" aria-labelledby="sec4">
+    <div class="sec-hd">
+      <div class="sec-num" aria-hidden="true">4</div>
+      <span class="sec-title" id="sec4">備考</span>
+    </div>
+    <div class="fields">
+      <div class="field">
+        <label for="f-note">備考（任意）</label>
+        <textarea id="f-note" placeholder="補足があれば入力してください"></textarea>
+      </div>
+    </div>
+  </section>
+
+  <div class="btn-area">
+    <button class="btn" id="submitBtn" type="button">提出する</button>
+  </div>
+
+</main>
+
+<script>
+// ── Power AutomateのURL（申請フォームと同じものを後で設定） ──────────
+const FLOW_URL = 'https://default2d74fddcf5f24857a377bb59864fc0.af.environment.api.powerplatform.com:443/powerautomate/automations/direct/cu/08/workflows/e39b9031e4754de886cae0ae616abb01/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=hgeoIZGtpglBmTJv4ghl64D2Ag1Nedt16nyDB9YBtXs';
+
+// ── 行を追加する ──────────────────────────────────────────────────────
+document.getElementById('addRowBtn').addEventListener('click', function () {
+  const tbody = document.getElementById('reportBody');
+  const newRow = document.createElement('tr');
+  newRow.innerHTML = `
+    <td><input type="text" placeholder="時刻を入力"></td>
+    <td><input type="text" placeholder="業務内容を入力"></td>
+    <td><select><option value="">選択してください</option><option value="完了">完了</option><option value="進行中">進行中</option><option value="持ち越し">持ち越し</option></select></td>
+  `;
+  tbody.appendChild(newRow);
+});
+
+// ── 通知表示 ─────────────────────────────────────────────────────────
+function notify(msg, type) {
+  const el = document.getElementById('notif');
+  el.textContent = msg;
+  el.className = 'notif ' + type;
+  el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+function clearNotify() {
+  const el = document.getElementById('notif');
+  el.className = 'notif';
+  el.textContent = '';
+}
+
+// ── 業務報告テーブルのデータ取得 ────────────────────────────────────
+function getReportRows() {
+  const rows = document.querySelectorAll('#reportBody tr');
+  const result = [];
+  rows.forEach(row => {
+    const inputs = row.querySelectorAll('input, select');
+    const jikan  = inputs[0].value.trim();
+    const naiyo  = inputs[1].value.trim();
+    const shinpo = inputs[2].value;
+    if (jikan || naiyo) {
+      result.push({ 時刻: jikan, 業務内容: naiyo, 進捗状況: shinpo });
+    }
+  });
+  return result;
+}
+
+// ── 送信処理 ─────────────────────────────────────────────────────────
+document.getElementById('submitBtn').addEventListener('click', async function () {
+  clearNotify();
+
+  const name    = document.getElementById('f-name').value.trim();
+  const date    = document.getElementById('f-date').value;
+  const start   = document.getElementById('f-start').value.trim();
+  const end     = document.getElementById('f-end').value.trim();
+  const breakT  = document.getElementById('f-break').value.trim();
+  const note    = document.getElementById('f-note').value.trim();
+  const rows    = getReportRows();
+
+  if (!name)   { notify('氏名を入力してください。', 'err'); return; }
+  if (!date)   { notify('在宅勤務実施日を選択してください。', 'err'); return; }
+  if (!start)  { notify('業務開始時刻を入力してください。', 'err'); return; }
+  if (!end)    { notify('業務終了時刻を入力してください。', 'err'); return; }
+  if (!breakT) { notify('休憩時間を入力してください。', 'err'); return; }
+  if (rows.length === 0) { notify('業務内容を少なくとも1件入力してください。', 'err'); return; }
+
+  const btn = this;
+  btn.disabled = true;
+  btn.textContent = '送信中…';
+
+  try {
+    const r = await fetch(FLOW_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        '氏名'           : name,
+        '実施日'         : date + 'T00:00:00Z',
+        '業務開始時刻'   : start,
+        '業務終了時刻'   : end,
+        '休憩時間'       : breakT,
+        '業務報告'       : JSON.stringify(rows),
+        '備考'           : note
+      })
+    });
+
+    if (r.ok) {
+      notify('✅ 報告書を提出しました。', 'ok');
+      document.getElementById('f-name').value  = '';
+      document.getElementById('f-date').value  = '';
+      document.getElementById('f-start').value = '';
+      document.getElementById('f-end').value   = '';
+      document.getElementById('f-break').value = '';
+      document.getElementById('f-note').value  = '';
+      document.querySelectorAll('#reportBody input, #reportBody select').forEach(el => {
+        el.value = '';
+      });
+    } else {
+      notify('送信に失敗しました。しばらく待ってから再度お試しください。', 'err');
+    }
+  } catch (e) {
+    console.error('Error:', e);
+    notify('エラーが発生しました。ページを再読み込みしてから再度お試しください。', 'err');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '提出する';
+  }
+});
+</script>
+</body>
+</html>
